@@ -1,14 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Form, Icon, Input, Button, message } from 'antd';
+import { API_ROOT } from '../constants';
 // Login Token:
 // username: qqqq; pasword: qqqq
 /// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDUwODgyMzIsInVzZXJuYW1lIjoicXFxcSJ9.U96IK8d_rX6MK7KjQKzA_Lg7POyJt83ZijyOpDOOVmA
-
-
-import {
-    Form, Icon, Input, Button, Checkbox, message,
-  } from 'antd';
- import { API_ROOT } from '../constants';
   
 
   const FormItem = Form.Item;
@@ -30,10 +26,11 @@ import {
                   return response;
                 }
                 throw new Error(response.statusText);
-            }).then(() => {
+            }).then((response) => {
                 message.success('Login Succeed');
                 // TODO: Handle login state change
                 // this.props.history.push('/login');
+                 this.props.handleLogin(response);
             }).catch((e) => {
                 message.error('Login Failed');
                 console.log(e);

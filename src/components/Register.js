@@ -1,6 +1,6 @@
 import React from 'react';
 import { API_ROOT } from '../constants';
-import {Form, Input, Button, message} from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 
   const FormItem = Form.Item;
