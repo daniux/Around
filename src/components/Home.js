@@ -63,7 +63,7 @@ export class Home extends React.Component {
     // console.log(lat, lon);
     this.setState({isLoadingPosts: true});
     const token = localStorage.getItem(TOKEN_KEY);
-    fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20000`, {
+    fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20`, {
       method: 'GET',
       headers: {
         Authorization: `${AUTH_HEADER} ${token}`
@@ -119,7 +119,7 @@ export class Home extends React.Component {
 
  render() {
    console.log('state:', this.state);
-   const operations = <CreatePostButton />;
+   const operations = <CreatePostButton loadNearbyPosts={this.loadNearbyPosts}/>;
    return (
       <Tabs tabBarExtraContent={operations} className="main-tabs">
         <TabPane tab="Posts" key="1">
