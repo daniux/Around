@@ -23,7 +23,7 @@ import { API_ROOT } from '../constants';
                 }),
             }).then((response) => {
                 if (response.ok) {
-                  return response;
+                  return response.text();
                 }
                 throw new Error(response.statusText);
             }).then((response) => {
