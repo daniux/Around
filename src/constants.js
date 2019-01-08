@@ -7,3 +7,4 @@ export const GEO_OPTIONS = {
     timeout: 3600000,
     maximumAge: 0
   };    
+export const LOC_SHAKE = 0.02;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Modal, Button, message } from 'antd';
 import { CreatePostForm } from './CreatePostForm';
-import { API_ROOT, POS_KEY, TOKEN_KEY, AUTH_HEADER } from '../constants';
+import { API_ROOT, POS_KEY, TOKEN_KEY, AUTH_HEADER, LOC_SHAKE } from '../constants';
 
 export class CreatePostButton extends React.Component {
   state = {
@@ -28,8 +28,13 @@ export class CreatePostButton extends React.Component {
               const token = localStorage.getItem(TOKEN_KEY);
               
               let formData = new FormData();
-              formData.set('lat', lat);
-              formData.set('lon', lon);
+              formData.set('lat', lat + 2 * LOC_SHAKE * Math.random() - LOC_SHAKE);
+              formData.set('lon', lon + 2 * LOC_SHAKE * Math.random() - LOC_SHAKE);
+              /*
+                -LOC_SHAKE      x     LOC_SHAKE
+                y = x + 2 * LOC_SHAKE * Math.random() - LOC_SHAKE
+                y is oscillated between -LOC_SHAKE and LOC_SHAKE
+              */
               formData.set('message', values.message); 
               formData.set('image',values.Image[0].originFileObj);
 
