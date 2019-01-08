@@ -100,7 +100,7 @@ export class Home extends React.Component {
     if (this.state.isLoadingPosts) {
       return <Spin tip="Loading posts..." />;
     }
-    if (this.state.posts.length > 0) {
+    if (this.state.posts && this.state.posts.length > 0) {
       const images = this.state.posts.map((post) => {
         return {
           user: post.user,
