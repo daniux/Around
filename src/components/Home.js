@@ -3,6 +3,7 @@ import { Tabs, Button, Spin } from 'antd';
 import { GEO_OPTIONS, API_ROOT, POS_KEY, TOKEN_KEY, AUTH_HEADER } from '../constants';
 import { Gallery } from './Gallery';
 import { CreatePostButton } from './CreatePostButton';
+import { AroundMap } from './AroundMap';
 
 const TabPane = Tabs.TabPane;
 const operations = <Button>Extra Action</Button>;
@@ -59,11 +60,13 @@ export class Home extends React.Component {
     // 1. read location: lat, lon
     // 2. request posts from API
     // 3. setState, put returned posts into state
-    const {lat, lon} = JSON.parse(localStorage.getItem(POS_KEY));
     // console.log(lat, lon);
-    this.setState({isLoadingPosts: true});
+    const {lat, lon} = JSON.parse(localStorage.getItem(POS_KEY));
     const token = localStorage.getItem(TOKEN_KEY);
-    fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20000`, {
+    const range = 200;
+    
+    this.setState({isLoadingPosts: true});
+    fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=${range}`, {
       method: 'GET',
       headers: {
         Authorization: `${AUTH_HEADER} ${token}`
@@ -125,7 +128,16 @@ export class Home extends React.Component {
         <TabPane tab="Posts" key="1">
           {this.getImagePosts()}
         </TabPane>
-        <TabPane tab="Map" key="2">Maps</TabPane>
+        <TabPane tab="Map" key="2">
+          <AroundMap 
+              isMarkerShown
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `600px` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
+              posts={this.state.posts}
+          />
+        </TabPane>
       </Tabs>
    );
  }

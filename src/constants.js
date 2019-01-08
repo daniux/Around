@@ -3,7 +3,7 @@ export const TOKEN_KEY = 'TOKEN_KEY';
 export const POS_KEY = 'POS_KEY';
 export const AUTH_HEADER = 'Bearer';
 export const GEO_OPTIONS = {
-    enableHighAccuracy: true,
+    enableHighAccuracy: false,
     timeout: 3600000,
     maximumAge: 0
   };    
