@@ -55,15 +55,15 @@ export class Home extends React.Component {
   }
 
 
-  loadNearbyPosts = () => {
+  loadNearbyPosts = (center, radius) => {
     // TODO:
     // 1. read location: lat, lon
     // 2. request posts from API
     // 3. setState, put returned posts into state
     // console.log(lat, lon);
-    const {lat, lon} = JSON.parse(localStorage.getItem(POS_KEY));
+    const {lat, lon} = center ? center : JSON.parse(localStorage.getItem(POS_KEY));
     const token = localStorage.getItem(TOKEN_KEY);
-    const range = 200;
+    const range = radius ? radius : 20;
     
     this.setState({isLoadingPosts: true});
     fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=${range}`, {
@@ -136,6 +136,7 @@ export class Home extends React.Component {
               containerElement={<div style={{ height: `600px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
               posts={this.state.posts}
+              loadNearbyPosts={this.loadNearbyPosts}
           />
         </TabPane>
       </Tabs>
