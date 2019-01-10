@@ -6,7 +6,7 @@ import { CreatePostButton } from './CreatePostButton';
 import { AroundMap } from './AroundMap';
 
 const TabPane = Tabs.TabPane;
-const operations = <Button>Extra Action</Button>;
+//const operations = <Button>Extra Action</Button>;
 
 export class Home extends React.Component {
   state = {
@@ -32,8 +32,10 @@ export class Home extends React.Component {
     console.log(position);
     const { latitude, longitude } = position.coords;
     localStorage.setItem(POS_KEY, JSON.stringify({
-      lat: latitude, 
-      lon: longitude 
+      lat: 35.780422,
+      lon: -121.330554
+      //lat: latitude, 
+      //lon: longitude 
     }));
     this.setState({ isLoadingGeoLocation: false });
     this.loadNearbyPosts();
@@ -63,7 +65,7 @@ export class Home extends React.Component {
     // console.log(lat, lon);
     const {lat, lon} = center ? center : JSON.parse(localStorage.getItem(POS_KEY));
     const token = localStorage.getItem(TOKEN_KEY);
-    const range = radius ? radius : 20;
+    const range = radius ? radius : 20000;
     
     this.setState({isLoadingPosts: true});
     fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=${range}`, {
@@ -90,7 +92,7 @@ export class Home extends React.Component {
   }
 
 
-  getImagePosts = () => {
+  getPanelContent = (type) => {
     if (this.state.error) {
       return <div>{this.state.error}</div>;
     } 
@@ -101,7 +103,15 @@ export class Home extends React.Component {
       return <Spin tip="Loading posts..." />;
     }
     if (this.state.posts && this.state.posts.length > 0) {
-      const images = this.state.posts.map((post) => {
+      return type === "image" ? this.getImagePosts() : this.getVideoPosts();
+    }
+    return 'no nearby post';
+  }
+
+  getImagePosts = () => {
+    const images = this.state.posts
+      .filter((post) => post.type === "image")
+      .map((post) => {
         return {
           user: post.user,
           src: post.url,
@@ -111,13 +121,11 @@ export class Home extends React.Component {
           thumbnailHeight: 300,
         }
       });
-      // return (<Gallery />); // with fake data/images
-      return (<Gallery images={images}/>);
-    }
-    return 'no nearby post';
-    // return <Gallery />;
-    // TODO:
-    //TODO: Render Posts from API
+    return (<Gallery images={images}/>);
+  }
+
+  getVideoPosts = () => {
+    return <div>Video</div>;
   }
 
  render() {
@@ -125,10 +133,13 @@ export class Home extends React.Component {
    const operations = <CreatePostButton loadNearbyPosts={this.loadNearbyPosts}/>;
    return (
       <Tabs tabBarExtraContent={operations} className="main-tabs">
-        <TabPane tab="Posts" key="1">
-          {this.getImagePosts()}
+        <TabPane tab="Image Posts" key="1">
+          {this.getPanelContent("image")}
         </TabPane>
-        <TabPane tab="Map" key="2">
+        <TabPane tab="Video Posts" key="2">
+          {this.getPanelContent("video")}
+        </TabPane>
+        <TabPane tab="Map" key="3">
           <AroundMap 
               isMarkerShown
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"

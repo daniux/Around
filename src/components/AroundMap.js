@@ -28,8 +28,10 @@ class NormalAroundMap extends React.Component {
         if (!this.map) return;
         const center = this.map.getCenter();
         return {
-            lat: center.lat(),
-            lon: center.lng()
+            lat: 35.780422,
+            lon: -121.330554
+            //lat: center.lat(),
+            //lon: center.lng()
         }
     }
 
