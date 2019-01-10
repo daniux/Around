@@ -41,6 +41,7 @@ class NormalAroundMap extends React.Component {
 
     render() {
         const {lat, lon} = JSON.parse(localStorage.getItem(POS_KEY));
+        // const {posts} = this.props;
         return (
             <GoogleMap
                 ref={this.getMapRef}
@@ -49,7 +50,8 @@ class NormalAroundMap extends React.Component {
                 onDragEnd={this.reloadMarkers}
                 onZoomChanged={this.reloadMarkers}
             >
-            { 
+            {
+                // this.props.posts && this.props.posts.length > 0 &&
                 this.props.posts.map(post => <AroundMarker post={post} key={post.url} />)
             }
           </GoogleMap>
