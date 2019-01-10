@@ -2,3 +2,8 @@
     height: 120px;
     width: 150px;
 }
+
+.around-marker-video {
+    max-width: 180px;
+    max-height: 300;
+}
