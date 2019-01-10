@@ -150,6 +150,31 @@ export class Home extends React.Component {
     });
   }
 
+  loadFacesAroundTheWorld = () => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    this.setState({isLoadingPosts: true});
+    fetch(`${API_ROOT}/cluster?term=face`, {
+      method: 'GET',
+      headers: {
+        Authorization: `${AUTH_HEADER} ${token}`
+      }
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        console.log('response', response);
+        this.setState({ isLoadingPosts: false, posts: response ? response : [] });
+      })
+      .catch((error) => {
+        this.setState({error: error.message});
+        this.setState({ isLoadingPosts: false, error: error.message });
+      });
+  }
+
  render() {
    console.log('state:', this.state);
    const operations = <CreatePostButton loadNearbyPosts={this.loadNearbyPosts}/>;
