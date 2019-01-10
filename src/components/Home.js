@@ -145,9 +145,9 @@ export class Home extends React.Component {
   }
 
   onTopicChange = (e) => {
-    this.setState({
-      topic: e.target.value
-    });
+    const topic = e.target.value;
+    this.setState({topic});
+    this.updatePosts({topic});
   }
 
   loadFacesAroundTheWorld = () => {
@@ -175,6 +175,15 @@ export class Home extends React.Component {
       });
   }
 
+  updatePosts = ({topic, center, radius}) => {
+    topic = topic || this.state.topic;
+    if (topic === 'face') {
+      this.loadFacesAroundTheWorld();
+    } else {
+      this.loadNearbyPosts(center, radius);
+    }
+  }
+
  render() {
    console.log('state:', this.state);
    const operations = <CreatePostButton loadNearbyPosts={this.loadNearbyPosts}/>;
@@ -199,7 +208,10 @@ export class Home extends React.Component {
                 containerElement={<div style={{ height: `600px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
                 posts={this.state.posts}
-                loadNearbyPosts={this.loadNearbyPosts}
+                updatePosts={this.updatePosts}
+                //loadNearbyPosts={this.loadNearbyPosts}
+                //loadFacesAroundTheWorld={this.loadFacesAroundTheWorld}
+                //topic={this.state.topic}
             />
           </TabPane>
         </Tabs>

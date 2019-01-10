@@ -8,10 +8,10 @@ class NormalAroundMap extends React.Component {
         const center = this.getCenter();
         // console.log(center.lat(), center.lng());
         const radius = this.getRadius();
-        this.props.loadNearbyPosts(
+        this.props.updatePosts({
             center,
             radius
-        );
+        });
     }
 
     getRadius = () => {
